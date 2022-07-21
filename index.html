@@ -1,0 +1,121 @@
+<html lang="zh-cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ミツキ Mitsuki</title>
+</head>
+
+<body>
+  <!-- html部分 -->
+  <canvas id="canvas" tabindex="0"></canvas>
+
+  <!-- css部分 -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #canvas {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      width: 80vw;
+      height: 80vh;
+      background-color: #2193b0;
+    }
+
+    #canvas:focus {
+      outline: none;
+    }
+
+    body {
+      background: url(./logo.png);
+    }
+
+  </style>
+
+  <!-- js部分 -->
+  <script>
+    window.onload = function () {
+      // 画布的长宽
+      const canvas = document.getElementById('canvas')
+      const canvasWidth = canvas.clientWidth
+      const canvasHeight = canvas.clientHeight
+      // 在画布上移动的方块的长宽
+      const [rectWidth, rectHeight] = [40, 40]
+      // 方块的横纵坐标
+      let [rectX, rectY] = [0, 0]
+      // 初始化
+      canvas.width = canvasWidth
+      canvas.height = canvasHeight
+      let context = canvas.getContext('2d')
+      // 给方块设置颜色和初始坐标（中心点），绘制
+      context.fillStyle = '#6dd5ed'
+      rectX = (canvasWidth - rectWidth) / 2
+      rectY = (canvasHeight - rectHeight) / 2
+      context.fillRect(rectX, rectY, rectWidth, rectHeight)
+
+      // canvas元素上监听键盘输入事件
+      canvas.addEventListener('keydown', doKeyDown, true)
+      canvas.focus() // 让canvas聚焦
+
+      function clearCanvas() {
+        context.clearRect(0, 0, canvasWidth, canvasHeight)
+      }
+
+      // 通过keyCode 上下左右移动
+      function doKeyDown(e) {
+        // 获取keyCode
+        const keyCode = e.keyCode ? e.keyCode : e.which
+
+        // 向上箭头 / w / k，让纵坐标向上移动10
+        if (keyCode === 38 || keyCode === 87 || keyCode === 75) {
+          clearCanvas()
+          rectY -= 10
+          if (rectY < 0) {
+            rectY = 0
+          }
+          context.fillRect(rectX, rectY, rectWidth, rectHeight)
+        }
+
+        // 向下箭头 / s / j，让纵坐标向下移动10
+        if (keyCode === 40 || keyCode === 83 || keyCode === 74) {
+          clearCanvas()
+          rectY += 10
+          if (rectY > canvasHeight - rectHeight) {
+            rectY = canvasHeight - rectHeight
+          }
+          context.fillRect(rectX, rectY, rectWidth, rectHeight)
+        }
+
+        // 向左箭头 / a / h，让纵坐标向左移动10
+        if (keyCode === 37 || keyCode === 65 || keyCode === 72) {
+          clearCanvas()
+          rectX -= 10
+          if (rectX < 0) {
+            rectX = 0
+          }
+          context.fillRect(rectX, rectY, rectWidth, rectHeight)
+        }
+
+        // 向右箭头 / d / l，让纵坐标向右移动10
+        if (keyCode === 39 || keyCode === 68 || keyCode === 76) {
+          clearCanvas()
+          rectX += 10
+          if (rectX > canvasWidth - rectWidth) {
+            rectX = canvasWidth - rectWidth
+          }
+          context.fillRect(rectX, rectY, rectWidth, rectHeight)
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
